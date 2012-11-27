@@ -1,7 +1,25 @@
 "use strict";
 
 
+function Field(name, context){
+    var self = this;
 
+    self.name = name;
+    self.context = context;
+
+    self.render = function(snippets){
+        self.context.name = self.name;
+        if (self.context.type == "section"){
+            var rendering = '';
+            for (var f in self.context.fields){
+               var field = new Field(f, self.context.fields[f]);
+               rendering += field.render(snippets); 
+            }
+           self.context.fields = rendering; 
+        }
+        return Mustache.to_html(snippets[self.context.type], self.context);
+    };
+}
 
 function Composer(params) {
     var self = this;
@@ -9,6 +27,7 @@ function Composer(params) {
     self.snippet = {
         input:  "<input type='text' name='{{ name }}'></input>",
         text:  "{{ text }}",
+        section: "<div class='section'>{{ fields }}</div>"
     }
 
     self.id = "composer";
@@ -30,9 +49,8 @@ function Composer(params) {
         rendering += "<div id='" + self.id + "'>";
         
         for (var propt in self.fields){
-            var context = self.fields[propt];
-            context.name = propt;
-            rendering += Mustache.to_html(self.snippet[self.fields[propt].type], context);
+            var field = new Field(propt, self.fields[propt])
+            rendering += field.render(self.snippet);
         }
 
         rendering += "</div>";

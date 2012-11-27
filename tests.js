@@ -33,4 +33,16 @@ describe("DDI", function() {
     expect(composer.render()).toBe("<div id='composer'>prop name label</div>");
   });
   
+  it("should allow sections", function() {
+    var composer = new Composer({fields: {
+            section1: {
+                       type: "section",
+                       fields: {
+                           info: {type: "text", text: "Awesome interface"}
+                       },
+            }
+    }});
+
+    expect(composer.render()).toBe("<div id='composer'><div class='section'>Awesome interface</div></div>");
+  });
 });
