@@ -9,7 +9,7 @@ describe("DDI", function() {
 
   it("should create an interface with an input", function() {
     var composer = new Composer({fields: {
-            name: {type: "text"}
+            name: {type: "input"}
         }
     });
     expect(composer.render()).toBe("<div id='composer'><input type='text' name='name'></input></div>");
@@ -18,11 +18,11 @@ describe("DDI", function() {
 
   it("should create a customised input field", function() {
     var composer = new Composer({fields: {
-            label: {type: "text"},
+            label: {type: "input"},
         }
     });
 
-    composer.override("text", "prop name {{ name }}");
+    composer.override("input", "prop name {{ name }}");
     expect(composer.render()).toBe("<div id='composer'>prop name label</div>");
   });
   

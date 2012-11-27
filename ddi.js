@@ -7,7 +7,7 @@ function Composer(params) {
     var self = this;
 
     self.snippet = {
-        text:  "<input type='text' name='{{ name }}'></input>"
+        input:  "<input type='text' name='{{ name }}'></input>"
     }
 
     self.id = "composer";
