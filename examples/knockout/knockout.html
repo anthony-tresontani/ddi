@@ -16,6 +16,7 @@
                                 name: {type: "text"},
                              }});
 
+            composer.override("composer", $("#composer-field").html());
             composer.override("text", $("#text-field").html());
             composer.override("input", $("#input-field").html());
 
@@ -34,6 +35,12 @@
         </script>
         <script id="input-field" type="text/template">
              <input data-bind="value: myText,valueUpdate:'afterkeydown'" name="input" ></input>
+        </script>
+        <script id="composer-field" type="text/template">
+            <div>
+                <p>My custom composer</p>
+                {{& fields }}
+            </div>
         </script>
         <div id="composer"></div>
   </BODY>
