@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC 
+  "-//IETF//DTD HTML LEVEL 1//EN">
+<HTML>
+  <HEAD>
+    <TITLE>Blank HTML Level 1 Page</TITLE>
+    <META HTTP-EQUIV="Content-Type" 
+          CONTENT="text/html; charset=utf-8">
+    <script src="jquery.min.js"></script>
+    <script type="text/javascript" src="knockout-2.2.0.js"></script>
+    <script type="text/javascript" src="../../libs/mustache.js"></script>
+    <script type="text/javascript" src="../../ddi.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            var composer = new Composer({fields: {
+                                input: {type: "input"},
+                                name: {type: "text"},
+                             }});
+
+            composer.override("text", $("#text-field").html());
+            composer.override("input", $("#input-field").html());
+
+            composer.render($("#composer"));
+
+            var myViewModel = {
+                myText: ko.observable('Jojo')
+            };
+            ko.applyBindings(myViewModel);
+        });
+    </script>
+  </HEAD>
+  <BODY>
+        <script id="text-field" type="text/template">
+             <span data-bind="text: myText">Dynamic text</span>
+        </script>
+        <script id="input-field" type="text/template">
+             <input data-bind="value: myText,valueUpdate:'afterkeydown'" name="input" ></input>
+        </script>
+        <div id="composer"></div>
+  </BODY>
+</HTML>

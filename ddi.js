@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 
 function Field(name, context){
@@ -9,7 +9,7 @@ function Field(name, context){
 
     self.render = function(snippets){
         self.context.name = self.name;
-        if (self.context.type == "section"){
+        if (self.context.type == "section" || self.context.type == "composer"){
             var rendering = '';
             for (var f in self.context.fields){
                var field = new Field(f, self.context.fields[f]);
@@ -27,7 +27,8 @@ function Composer(params) {
     self.snippet = {
         input:  "<input type='text' name='{{ name }}'></input>",
         text:  "{{ text }}",
-        section: "<div class='section'>{{ fields }}</div>"
+        section: "<div class='section'>{{& fields }}</div>",
+        composer: "<div id='{{ id }}'>{{& fields }}</div>"
     }
 
     self.id = "composer";
@@ -43,17 +44,16 @@ function Composer(params) {
     self.override = function(pattern, value){
         self.snippet[pattern] = value;
     }
+  
+    self.type = "composer";
+    self.render =  function(elem) {
+        var composer = new Field("composer", self)
+        var rendering =  composer.render(self.snippet);
 
-    self.render =  function() {
-        var rendering = "";
-        rendering += "<div id='" + self.id + "'>";
-        
-        for (var propt in self.fields){
-            var field = new Field(propt, self.fields[propt])
-            rendering += field.render(self.snippet);
+        if (typeof elem !== "undefined"){
+            elem.html(rendering);
         }
 
-        rendering += "</div>";
         return rendering;
     }
 }
